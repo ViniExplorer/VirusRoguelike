@@ -17,6 +17,14 @@ public class PlayerStats : MonoBehaviour
 
     #endregion
 
+    #region Inventory
+
+    public int slotsUsed = 0;
+    public int maxslots = 5;
+    public Weapon[] slots = new Weapon[5];
+    
+
+    #endregion
     // Start is called before the first frame update
     void Start()
     {
