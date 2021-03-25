@@ -58,7 +58,7 @@ public class AI : MonoBehaviour
 
     IEnumerator MoveToTarget()
     {
-        print("MOVING...");
+        //print("MOVING...");
         isMoving = true;
 
         float distance = Vector2.Distance(transform.position, targetEnemy.transform.position);
@@ -89,7 +89,7 @@ public class AI : MonoBehaviour
         isMoving = false;
         while (targetEnemy != null)
         {
-            print("ATTACKING!!!!");
+            //print("ATTACKING!!!!");
 
             rb.velocity = Vector2.zero;
             rb.angularVelocity = 0f;
@@ -102,7 +102,7 @@ public class AI : MonoBehaviour
                 yield return null;
             }
 
-            print("GOING BACK TO INITIAL POSITION...");
+            //print("GOING BACK TO INITIAL POSITION...");
 
             ///// RESETING ROTATION AND PREVENTING ANY FURTHER ROTATIONS /////
             rb.velocity = Vector2.zero;
@@ -145,13 +145,13 @@ public class AI : MonoBehaviour
 
     IEnumerator CheckForNoCollision()
     {
-        print("No collision?");
+        //print("No collision?");
         yield return new WaitForSeconds(secsTillAtkReset);
 
         if (isAttacking)
         {
             isAttacking = false;
-            print("looks like no collision. Resetting :(");
+            //print("looks like no collision. Resetting :(");
         }
     }
 
@@ -173,7 +173,20 @@ public class AI : MonoBehaviour
                     isAttacking = false;
                 }
             }
+            else {
+                StopAllCoroutines();
+                rb.velocity = Vector2.zero;
+                rb.angularVelocity = 0f;
+                transform.rotation = Quaternion.identity;
+                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                targetEnemy = collision.gameObject;
+                StartCoroutine(MoveToTarget());
+            }
         }
+    }
+    
+    void Die(){
+        Destroy(gameObject);
     }
 
     private void Start()
@@ -184,22 +197,31 @@ public class AI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(hp <= 0f){
+            Die();
+        }
         if (!isAttacking){
             
             if (targetEnemy == null)
             {
-                print("FINDING ENEMY");
+                //print("FINDING ENEMY");
                 StopAllCoroutines();
                 GameObject[] enemies = GameObject.FindGameObjectsWithTag(targetEnemyTag);
                 float minDist = Mathf.Infinity;
                 GameObject bestTarget = null;
                 foreach (GameObject t in enemies)
                 {
-                    float dist = Vector3.Distance(t.transform.position, transform.position);
-                    if (dist < minDist)
-                    {
-                        bestTarget = t;
-                        minDist = dist;
+                    Vector3 rayDir = t.transform.position - transform.position;
+                    Vector3 offset = new Vector3(t.transform.position.x / Mathf.Abs(t.transform.position.x),
+                    t.transform.position.y / Mathf.Abs(t.transform.position.y));
+                    RaycastHit2D hit = Physics2D.Raycast(transform.position + offset, rayDir);
+                    if(hit.collider.gameObject.tag == targetEnemyTag){
+                        float dist = Vector3.Distance(t.transform.position, transform.position);
+                        if (dist < minDist)
+                        {
+                            bestTarget = t;
+                            minDist = dist;
+                        }  
                     }
                 }
                 if(minDist > maxDisFromEnemy){
@@ -208,23 +230,23 @@ public class AI : MonoBehaviour
                     furtherThanMaxDis = false;
                 }
                 targetEnemy = bestTarget;
-                print("FOUND ENEMY. MOVING TO TARGET.");
+                //print("FOUND ENEMY. MOVING TO TARGET.");
                 StartCoroutine(MoveToTarget());
             }
             else
             {
                 if (Vector2.Distance(targetEnemy.transform.position, transform.position) > maxDisFromEnemy && !furtherThanMaxDis)
                 {
-                    print("TARGET TOO FAR, FIND A NEW ENEMY");
+                    //print("TARGET TOO FAR, FIND A NEW ENEMY");
                     targetEnemy = null;
                 }
                 else if (Vector2.Distance(targetEnemy.transform.position, transform.position) > minDisFromEnemy){
                     if(!isMoving){
+                        StopAllCoroutines();
                         rb.velocity = Vector2.zero;
                         rb.angularVelocity = 0f;
                         transform.rotation = Quaternion.identity;
                         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-                        StopAllCoroutines();
                         StartCoroutine(MoveToTarget());
                     }
                 }

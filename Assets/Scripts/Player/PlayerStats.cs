@@ -15,6 +15,15 @@ public class PlayerStats : MonoBehaviour
     public float energy = 150f;
     public float maxEnergy = 150f;
 
+    public float energyRefillPoints = 10f;
+    public float eRefInterval = 1f;
+    public float hpRefillPoints = 0.2f;
+    public float hpRefInterval = 0.1f;
+
+    bool alive = true;
+
+    public MainPlayerControl controls;
+
     #endregion
 
     #region Inventory
@@ -25,15 +34,44 @@ public class PlayerStats : MonoBehaviour
     
 
     #endregion
+
+    IEnumerator EnergyRefill(){
+        while(alive)
+        {
+            if(energy < maxEnergy){
+                if(!controls.speeding){
+                    if(energy + energyRefillPoints > maxEnergy){
+                        energy = maxEnergy;
+                    }
+                    else{
+                        energy += energyRefillPoints;
+                    }
+                }
+            }
+
+            yield return new WaitForSeconds(eRefInterval);
+        }
+    }
+    IEnumerator HPRefill(){
+        while(alive)
+        {
+            if(hp < maxHp){
+                if(hp + hpRefillPoints > maxHp){
+                    hp = maxHp;
+                }
+                else{
+                    hp += hpRefillPoints;
+                }
+            }
+
+            yield return new WaitForSeconds(hpRefInterval);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        StartCoroutine(EnergyRefill());
+        StartCoroutine(HPRefill());
     }
 }

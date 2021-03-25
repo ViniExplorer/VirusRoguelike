@@ -7,9 +7,18 @@ public class MainPlayerControl : MonoBehaviour
     #region Components and Main Variables
     
     public Rigidbody2D rb;
+    public PlayerStats stats;
 
     //////// KEY VARIABLES /////////
     public float speed = 5f;
+
+    // Multiplier for when the player is sprinting
+    public float speedingMod = 1.5f;
+
+    public float speedECost = 1f;
+
+    // if the player is running
+    public bool speeding = false;
 
     #endregion
 
@@ -25,5 +34,21 @@ public class MainPlayerControl : MonoBehaviour
         // Making the player move according to whether they are moving or not
         rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed * Time.deltaTime,
                                     Input.GetAxis("Vertical") * speed * Time.deltaTime);
+        
+        if(Input.GetKey(KeyCode.LeftShift)){
+            if(stats.energy > 0f){
+                if(!speeding){
+                    speed *= speedingMod;
+                    speeding = true;
+                }
+                stats.energy -= speedECost * Time.fixedDeltaTime;
+            }
+        }
+        else{
+            if(speeding){
+                speed /= speedingMod;
+                speeding = false;
+            }
+        }
     }
 }
