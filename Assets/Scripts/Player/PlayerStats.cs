@@ -28,9 +28,12 @@ public class PlayerStats : MonoBehaviour
 
     #region Inventory
 
+    public int selSlot = 0;
+
     public int slotsUsed = 0;
-    public int maxslots = 5;
+
     public Weapon[] slots = new Weapon[5];
+    public Sprite[] slotPics = new Sprite[5];
     
 
     #endregion

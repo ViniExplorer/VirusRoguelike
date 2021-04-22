@@ -43,6 +43,8 @@ public class AI : MonoBehaviour
     bool isAttacking;    
     public float attackDelay;
 
+    public LayerMask selfLayer;
+
     // Enemy detecting variables
     public float minDisFromEnemy;
     public float maxDisFromEnemy;
@@ -212,9 +214,7 @@ public class AI : MonoBehaviour
                 foreach (GameObject t in enemies)
                 {
                     Vector3 rayDir = t.transform.position - transform.position;
-                    Vector3 offset = new Vector3(t.transform.position.x / Mathf.Abs(t.transform.position.x),
-                    t.transform.position.y / Mathf.Abs(t.transform.position.y));
-                    RaycastHit2D hit = Physics2D.Raycast(transform.position + offset, rayDir);
+                    RaycastHit2D hit = Physics2D.Raycast(transform.position, rayDir, maxDisFromEnemy, ~selfLayer);
                     if(hit.collider.gameObject.tag == targetEnemyTag){
                         float dist = Vector3.Distance(t.transform.position, transform.position);
                         if (dist < minDist)

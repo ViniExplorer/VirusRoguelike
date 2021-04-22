@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Weapon
 {
     public enum WeaponType
@@ -19,7 +20,7 @@ public class Weapon
     public float energyPointsNeeded;
 
     public GameObject bulletPrefab;
-
+    
     public void Shoot(Vector2 startPos, float rotation, float bulletForce)
     {
         if (type == WeaponType.Shooting)

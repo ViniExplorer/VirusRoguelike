@@ -31,6 +31,20 @@ public class MainPlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetMouseButtonDown(0)){
+
+        }
+        
+        if (stats.selSlot + (int)Input.mouseScrollDelta.y < 0){
+            stats.selSlot = 4;
+        }
+        else if (stats.selSlot + (int)Input.mouseScrollDelta.y > 4){
+            stats.selSlot = 0;
+        }
+        else {
+            stats.selSlot += (int)Input.mouseScrollDelta.y;
+        }
+
         // Making the player move according to whether they are moving or not
         rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed * Time.deltaTime,
                                     Input.GetAxis("Vertical") * speed * Time.deltaTime);
@@ -49,6 +63,11 @@ public class MainPlayerControl : MonoBehaviour
                 speed /= speedingMod;
                 speeding = false;
             }
+        }
+
+        if(speeding && stats.energy < 0f){
+            speed /= speedingMod;
+            speeding = false;
         }
     }
 }
