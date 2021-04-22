@@ -1,4 +1,4 @@
 # VirusRoguelike
 Our project for the Games Development class.
 
-In this game, you are a virus trying to get through to the person's body all the way to the heart.
+In this game, you defend your body from a virus that took over most of the body
