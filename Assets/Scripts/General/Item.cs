@@ -24,4 +24,9 @@ public class Item : MonoBehaviour
         }
         transform.rotation = Quaternion.Euler(0f, angle, 0f);
     }
+
+    public void SelfDestruct()
+    {
+        Destroy(gameObject);
+    }
 }
