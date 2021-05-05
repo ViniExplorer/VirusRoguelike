@@ -23,6 +23,23 @@ public class Weapon
 
     public float dashForce = 20f;
     
+    public IEnumerator Dash(Vector2 dir, Rigidbody2D rb, Transform t)
+    {
+        var initPos = t.position;
+
+        float distance = Vector2.Distance(t.position, dir * dashForce * 10f);
+
+        while (distance > 0.1f)
+        {
+            Vector2 newPosition = Vector2.MoveTowards(rb.position, initPos, dashForce * 10f * Time.deltaTime);
+            rb.MovePosition(newPosition);
+
+            distance = Vector2.Distance(t.position, initPos); 
+
+            yield return null;
+        }
+    }
+
     public void Shoot(Vector2 startPos, float rotation, float bulletForce)
     {
         if (type == WeaponType.Shooting)
@@ -36,11 +53,11 @@ public class Weapon
     /// </summary>
     /// <param name="dir"></param>
     /// <param name="rb"></param>
-    public void Attack(Vector2 dir, Rigidbody2D rb)
+    public void Attack(Vector2 dir, Rigidbody2D rb, MainPlayerControl ctrl)
     {
         if (type == WeaponType.Melee)
         {
-            rb.AddForce(dir * dashForce, ForceMode2D.Impulse);
+            ctrl.StartCoroutine(Dash(dir, rb, ctrl.transform));
         }
         else if (type == WeaponType.Shooting) {
             Debug.LogError("Error: Wrong weapon or parameters for attack. Try again.");

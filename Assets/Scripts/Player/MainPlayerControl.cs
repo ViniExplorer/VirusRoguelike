@@ -77,8 +77,12 @@ public class MainPlayerControl : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Weapon selWeapon = stats.slots[stats.selSlot];
-            Vector3 lookDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-            selWeapon.Attack(lookDir, rb);
+            if (stats.energy - selWeapon.energyPointsNeeded > 0f)
+            {
+                Vector3 lookDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+                selWeapon.Attack(lookDir, rb, this);
+                stats.energy -= selWeapon.energyPointsNeeded;
+            }
         }
     }
 
