@@ -23,7 +23,8 @@ public class MainPlayerControl : MonoBehaviour
 
     // Attacking variables
     bool isAttacking = false;
-    public float attackLength = 2f;
+    public float attackLength = .2f;
+    float currentDamage;
 
     #endregion
 
@@ -46,9 +47,11 @@ public class MainPlayerControl : MonoBehaviour
             stats.selSlot += (int)Input.mouseScrollDelta.y;
         }
 
-        // Making the player move according to whether they are moving or not
-        rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed * Time.deltaTime,
-                                    Input.GetAxis("Vertical") * speed * Time.deltaTime);
+        if (!isAttacking)
+        {
+            rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed * Time.deltaTime,
+                                        Input.GetAxis("Vertical") * speed * Time.deltaTime);
+        }
         
         // Checking for sprinting
         if(Input.GetKey(KeyCode.LeftShift)){
@@ -79,18 +82,32 @@ public class MainPlayerControl : MonoBehaviour
             Weapon selWeapon = stats.slots[stats.selSlot];
             if (stats.energy - selWeapon.energyPointsNeeded > 0f)
             {
-                Vector3 lookDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-                selWeapon.Attack(lookDir, rb, this);
-                stats.energy -= selWeapon.energyPointsNeeded;
+                if(selWeapon.type == Weapon.WeaponType.Melee)
+                {
+                    isAttacking = true;
+                    Vector3 lookDir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+                    currentDamage = selWeapon.damage;
+                    selWeapon.Attack(lookDir, rb);
+                    StartCoroutine(AttackingCoolDown());
+                    stats.energy -= selWeapon.energyPointsNeeded;
+
+                }
             }
         }
     }
 
-    IEnumerator Attacking()
+    IEnumerator AttackingCoolDown()
     {
-
-
         yield return new WaitForSeconds(attackLength);
+        isAttacking = false;
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "EvilBoi" && isAttacking)
+        {
+            collision.gameObject.GetComponent<AI>().hp -= currentDamage;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)

@@ -25,8 +25,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3203198850782931429}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.76, y: -0.86, z: 0}
-  m_LocalScale: {x: 1.4747629, y: 0.12999153, z: 1}
+  m_LocalPosition: {x: -0.418, y: -0.445, z: 0}
+  m_LocalScale: {x: 0.85458416, y: 0.071392, z: 1}
   m_Children: []
   m_Father: {fileID: 3203198851412377375}
   m_RootOrder: 1
@@ -70,12 +70,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -10
-  m_Sprite: {fileID: 21300000, guid: 7e0014eed51a62142927c739f863a99b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5f7fb48aaf68d1c48ae7615ef7f3f09d, type: 3}
   m_Color: {r: 0.6792453, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -106,7 +106,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3203198851412377361}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.028, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3203198851815202555}
@@ -157,7 +157,7 @@ Transform:
   m_GameObject: {fileID: 3203198851537579903}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8911854845047722489}
   m_RootOrder: 0
@@ -274,8 +274,15 @@ MonoBehaviour:
     m_Bits: 512
   minDisFromEnemy: 5
   maxDisFromEnemy: 20
+  weapon:
+    type: 0
+    icon: {fileID: 0}
+    damage: 0
+    energyPointsNeeded: 0
+    bulletPrefab: {fileID: 0}
+    dashForce: 0
   weaponDmg: 10
-  secsTillAtkReset: 2
+  secsTillAtkReset: 0.75
 --- !u!1 &3203198851815202554
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,8 +309,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3203198851815202554}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.76, y: -0.86000013, z: 0}
-  m_LocalScale: {x: 1.4747629, y: 0.12999153, z: 1}
+  m_LocalPosition: {x: -0.41800004, y: -0.445, z: 0}
+  m_LocalScale: {x: 0.85458416, y: 0.071392, z: 1}
   m_Children: []
   m_Father: {fileID: 3203198851412377375}
   m_RootOrder: 0
@@ -347,12 +354,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7e0014eed51a62142927c739f863a99b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5f7fb48aaf68d1c48ae7615ef7f3f09d, type: 3}
   m_Color: {r: 0.03436874, g: 0.4339623, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.16, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
